@@ -1,23 +1,40 @@
 import logo from './logo.svg';
 import './App.css';
+import { useCallback, useState } from 'react';
+import TodoList from './TodoListComponent';
+import {Calculator} from './Calculator';
 
 function App() {
+
+  const [todos, setTodos] = useState(["get milk", "buy petrol"]);
+
+  const [count, setCount] = useState(0);
+
+  // const onAddTodo = (e) => {
+  //   setTodos([...todos, "New Todo"])
+  // }
+
+  const onAddTodo = useCallback(()=> {
+    setTodos(...todos, "New todos")
+  }, [todos]);
+
+  const [a, setA] = useState(0);
+  const [b, setB] = useState(0);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <input value={a} onChange={(e)=>setA(parseInt(e.target.value))}/>
+      <input value={b} onChange={(e)=>setB(parseInt(e.target.value))}/>
+
+      <Calculator a={a} b ={b}/>
+      <hr/>
+
+      <h2>{count}</h2>
+      <button onClick={() => setCount(count + 1)}>+</button>
+      <button onClick={() => setCount(count - 1)}>-</button>
+
+      <TodoList todos={todos} onAddClick={onAddTodo}/>
     </div>
   );
 }
